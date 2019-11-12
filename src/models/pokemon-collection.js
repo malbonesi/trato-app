@@ -10,6 +10,8 @@ export default Bb.Collection.extend({
     this.fetch() 
   },
 
-  parse: function(res) { return res.data }
+  parse: function(res) { 
+    return res.data
+  }
 
 })
