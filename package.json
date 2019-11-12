@@ -1,0 +1,19 @@
+{
+  "name": "trato-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "backbone": "^1.4.0",
+    "backbone.marionette": "^3.5.1",
+    "backbone.radio": "^2.0.0",
+    "jquery": "^3.4.1",
+    "underscore": "^1.9.1"
+  }
+}
