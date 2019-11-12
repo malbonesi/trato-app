@@ -5,5 +5,5 @@ export default Bb.Model.extend({
     isEditing: false
   },
 
-  //idAttribute: "_id",
+  idAttribute: "dexId",
 })
