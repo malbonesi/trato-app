@@ -49,10 +49,13 @@ export default Mn.View.extend({
 
   saveModel: function () {
     let attrs = {}
+    
     let inputs = _.values(this.$el.find('input'))
-    this.headers.forEach(key => {
+    
+    this.headers.slice(1).forEach(key => {
       attrs[key] = inputs.find(input => input.dataset.key === key).value
     })
+    
     this.model.set({isEditing: false}).save(attrs);
   },
 
@@ -66,9 +69,21 @@ export default Mn.View.extend({
       this.$el.html(this.template(this.model.attributes))
     
     } else {
-      let htmlStr = this.headers.map(key => (
-        `<td><input type="text" value=${this.model.get(`${key}`)} data-key=${key}></td>`
-      ))
+      
+      let htmlStr = this.headers.map(key => {
+        let value = this.model.get(key) 
+
+        if(key === 'dexId'){
+          return `<td>${value}</td>`
+        } else {
+          return `
+            <td>
+              <input type="text" value=${value} data-key=${key}>
+            </td>
+          `
+        }
+      })
+
       this.$el.html(
         htmlStr.join('')+
         `<td>
