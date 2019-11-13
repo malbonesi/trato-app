@@ -16,6 +16,7 @@ export default Mn.View.extend({
         <th scope="col">DexId</th>
         <th scope="col">Name</th>
         <th scope="col">Type1</th>
+        <th scope="col">Type2</th>
         <th scope="col">Generation</th>
         <th scope="col">Action</th>
       </tr>
