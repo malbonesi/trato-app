@@ -3,23 +3,10 @@ import _ from 'underscore'
 
 export default Mn.View.extend({
   initialize: function(){
-    this.headers = ['dexId', 'name', 'type1', 'generation']
-    //this.templateStr = this.headers.map(header => `<td><%= ${header} %></td>`) 
+    this.headers = ['dexId', 'name', 'type1', 'type2', 'generation']
   },
+
   tagName: 'tr',
-
-  template: _.template(`
-    <td><%= dexId %></td>
-    <td><%= name %></td>
-    <td><%= type1 %></td>
-    <td><%= generation %></td>
-    <td>
-    <button class="edit btn btn-primary">Edit</button>
-    <button class="delete btn btn-danger">Delete</button>
-    </td>
-  `),
-
-  className: '', 
 
   ui: {
     edit: '.edit',
@@ -51,47 +38,80 @@ export default Mn.View.extend({
     let attrs = {}
     
     let inputs = _.values(this.$el.find('input'))
-    
-    this.headers.slice(1).forEach(key => {
-      attrs[key] = inputs.find(input => input.dataset.key === key).value
+
+    this.headers.forEach(key => {
+
+      let val = inputs.find(input => input.dataset.key === key).value
+      
+      //cast dexId and generation to numbers
+      attrs[key] = ['dexId', 'generation'].includes(key) ? +val : val
     })
+
+    let type = 'PUT'
+    let url = this.model.url()
     
-    this.model.set({isEditing: false}).save(attrs);
+    if(this.model.isNew()) {
+      type = 'POST' 
+      url = this.model.collection.url
+    }
+
+    this.model.save(attrs,
+      {
+        type: type,
+        url: url,
+        success: function(model, res){
+          model.set({ isEditing: false })
+        },
+        error: function(model, res){}
+      }
+    )
   },
 
   cancelEdit: function(){
-    this.model.set({ isEditing: false })
-  },
+    if(this.model.isNew()){ 
 
-  render: function(){
-    if(!this.model.get('isEditing')){
-
-      this.$el.html(this.template(this.model.attributes))
+      this.model.destroy()  
     
     } else {
       
-      let htmlStr = this.headers.map(key => {
-        let value = this.model.get(key) 
+      this.model.set({ isEditing: false })
+    
+    }  
+  },
 
-        if(key === 'dexId'){
-          return `<td>${value}</td>`
-        } else {
-          return `
-            <td>
-              <input type="text" value=${value} data-key=${key}>
-            </td>
-          `
-        }
-      })
+  render: function(){
 
-      this.$el.html(
-        htmlStr.join('')+
-        `<td>
+    let buttons = this.model.get('isEditing') 
+      ? `<td>
           <button class="save btn btn-primary">Save</button>
           <button class="cancel btn btn-secondary">Cancel</button>
-        </td>`    
-      )
-    }
-    return this
+         </td>`
+
+      : `<td>
+          <button class="edit btn btn-primary">Edit</button>
+          <button class="delete btn btn-danger">Delete</button>
+         </td>`
+    
+    let htmlStr = this.headers.map(key => {
+      
+      let value = this.model.get(key) 
+        
+      if(this.model.get('isEditing')){
+        return `
+          <td>
+            <input type="text" value='${value || ''}' data-key=${key}>
+          </td>
+        `
+      } else {
+        return `<td>${value}</td>`
+      }
+    })
+
+    this.$el.html(
+      htmlStr.join('') +
+      buttons  
+    )
+
+    return this;
   }
 })
