@@ -1,10 +1,12 @@
 import Bb from 'backbone'
-import PokeModel from './pokemon-item.js'
+import PokemonItem from './pokemon-item.js'
 
 export default Bb.Collection.extend({
   url: 'https://tratotest.herokuapp.com/pokemon',
 
-  model: PokeModel,
+  model: PokemonItem,
+  
+  comparator: 'dexId',
 
   initialize: function() { 
     this.fetch() 
