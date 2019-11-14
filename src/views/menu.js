@@ -2,11 +2,11 @@ import Mn from 'backbone.marionette'
 import _ from 'underscore'
 
 export default Mn.View.extend({
-  tagName: 'div',  
+  tagName: 'button',  
   
-  template: _.template(`<button class="btn btn-primary">New</button>`),
+  template: _.template(`<span">New</span>`),
   
-  className: 'my-2',
+  className: 'my-2 btn btn-primary',
   
   events: {
     'click': 'addModel'
