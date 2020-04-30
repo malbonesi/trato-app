@@ -15,7 +15,7 @@
     "backbone": "^1.4.0",
     "backbone.marionette": "^3.5.1",
     "backbone.radio": "^2.0.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "underscore": "^1.9.1"
   },
   "devDependencies": {
