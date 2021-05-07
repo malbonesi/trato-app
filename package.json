@@ -16,7 +16,7 @@
     "backbone.marionette": "^3.5.1",
     "backbone.radio": "^2.0.0",
     "jquery": "^3.4.1",
-    "underscore": "^1.9.1"
+    "underscore": "^1.12.1"
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.4"
